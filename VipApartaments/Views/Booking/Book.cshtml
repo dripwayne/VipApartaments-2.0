@@ -1,0 +1,185 @@
+﻿@model IEnumerable<VipApartaments.Models.Rooms>
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+
+	<title>Booking Form HTML Template</title>
+
+	<!-- Google font -->
+	<link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet">
+
+	<!-- Bootstrap -->
+	<link type="text/css" rel="stylesheet" href="css/bootstrap.min.css" />
+
+	<!-- Custom stlylesheet -->
+	@*<link type="text/css" rel="stylesheet" href="css/style.css" />*@
+
+	<!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+	<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+	<!--[if lt IE 9]>
+		  <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+		  <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+		<![endif]-->
+<style>
+	body {
+  font-family: 'Open Sans', sans-serif;
+  background-color: #f7f7f7;
+}
+
+.section {
+  padding: 80px 0;
+}
+
+.section-center {
+  width: 90%;
+  margin: 0 auto;
+  max-width: 1170px;
+}
+
+.booking-cta {
+  background-color: #fff;
+  padding: 60px;
+  box-shadow: 0 2px 2px rgba(0, 0, 0, 0.1);
+  border-radius: 5px;
+}
+
+.booking-cta h1 {
+  font-size: 36px;
+  font-weight: 700;
+  margin-bottom: 20px;
+  color: #333;
+}
+
+.booking-cta p {
+  font-size: 16px;
+  font-weight: 400;
+  color: #777;
+  line-height: 1.5;
+}
+
+.booking-form {
+  background-color: #fff;
+  padding: 40px;
+  box-shadow: 0 2px 2px rgba(0, 0, 0, 0.1);
+  border-radius: 5px;
+}
+
+.booking-form .form-label {
+  font-size: 14px;
+  font-weight: 600;
+  color: #333;
+}
+
+.booking-form .form-control {
+  border: none;
+  border-radius: 0;
+  box-shadow: none;
+  background-color: #f7f7f7;
+  color: #333;
+  height: 50px;
+  font-size: 16px;
+  font-weight: 400;
+}
+
+.booking-form .select-arrow {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 0;
+  height: 0;
+  border-style: solid;
+  border-width: 0 6px 6px 6px;
+  border-color: transparent transparent #333 transparent;
+}
+
+.booking-form .submit-btn {
+  background-color: #333;
+  color: #fff;
+  border: none;
+  padding: 16px 40px;
+  border-radius: 5px;
+  font-size: 16px;
+  font-weight: 600;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
+.alert-primary {
+  background-color: #007bff;
+  color: #fff;
+  padding: 10px 20px;
+  margin-top: 20px;
+  border-radius: 5px;
+  font-size: 14px;
+}
+	</style>
+</head>
+
+<body>
+	<div id="booking" class="section">
+		<div class="section-center">
+			<div class="container">
+				<div class="row">
+					<div class="col-md-4 col-md-push-5">
+						<div class="booking-cta">
+							<h1>Make your reservation</h1>
+							<p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Animi facere, soluta magnam consectetur molestias itaque
+								ad sint fugit architecto incidunt iste culpa perspiciatis possimus voluptates aliquid consequuntur cumque quasi.
+								Perspiciatis.
+							</p>
+						</div>
+					</div>
+					<div class="col-md-7 col-md-pull-7">
+						<div class="booking-form">
+							<form method ="POST">
+								<div class="form-group">
+									<div class="row">
+									<div class="col-sm-6">
+										<div class="form-group">
+											<span class="form-label" for="DateFrom">Check In</span>
+											<input class="form-control" id="DateFrom" name="DateFrom" type="date" required>
+										</div>
+									</div>
+									<div class="col-sm-6">
+										<div class="form-group">
+											<span class="form-label" for="DateTo">Check out</span>
+											<input class="form-control"id="DateTo" name="DateTo"  type="date" required>
+										</div>
+									</div>
+								
+								<div class="row">
+									<div class="col-sm-7">
+										<div class="form-group">
+											<span class="form-label" for="select_type" >Rodzaj Pokoju</span>
+											<select  id="select_type" name="select_type">
+												@foreach (var room in Model)
+												{
+													<option value="@room.Id">@room.RoomType</option>
+												}
+											</select>
+											<span class="select-arrow"></span>
+										</div>
+									</div>
+								
+								<div class="form-btn">
+									<button type="submit" class="submit-btn">Zarezerwuj</button>
+								</div>
+							</form>
+							@if (ViewData["Message"] != null)
+							 {
+							<div class="alert alert-primary">
+							 @ViewData["Message"]
+							 </div>
+							 }
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+
+</html>

@@ -1,0 +1,72 @@
+﻿@model VipApartaments.Models.Clients
+
+
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
+<section class="ftco-section">
+		<div class="container">
+			
+			<div class="row justify-content-center">
+				<div class="col-md-6 text-center mb-5">
+					<h2 class="heading-section">Login #05</h2>
+				</div>
+			</div>
+			<div class="row justify-content-center">
+				<div class="col-md-7 col-lg-5">
+					<div class="wrap">
+						<div class="img" style="background-image: url(images/bg-1.jpg);"></div>
+						<div class="login-wrap p-4 p-md-5">
+			      	<div class="d-flex">
+			      		<div class="w-100">
+			      			<h3 class="mb-4">Zareistruj się</h3>
+			      		<form asp-action="Create">
+						 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+			      		<div class="form-group mt-3">
+							<label asp-for="FirstName" class="form-control-placeholder">Imię</label>
+							<input asp-for="FirstName" class="form-control" />
+							<span asp-validation-for="FirstName" class="text-danger"></span>
+			      			
+			      		</div>
+						  <div class="form-group mt-3">
+							<label asp-for="LastName" class="form-control-placeholder">Nazwisko</label>
+							<input asp-for="LastName" class="form-control" />
+							<span asp-validation-for="LastName" class="text-danger"></span>
+			      			
+			      		</div>
+						  <div class="form-group mt-3">
+							 <label asp-for="Phone" class="form-control-placeholder">Telefon</label>
+							<input asp-for="Phone" class="form-control" />
+							<span asp-validation-for="Phone" class="text-danger"></span>
+			      			
+			      			
+			      		</div>
+						  <div class="form-group mt-3">
+							  <label asp-for="Email" class="form-control-placeholder">Email</label>
+							 <input asp-for="Email" class="form-control" />
+							<span asp-validation-for="Email" class="text-danger"></span>
+			      			
+			      		</div>
+		            <div class="form-group">
+						<label asp-for="password" class="form-control-placeholderl">Hasło</label>
+						<input asp-for="password" class="form-control" />
+						<span asp-validation-for="password" class="text-danger"></span>
+		             
+		            </div>
+		            <div class="form-group">
+		            	<button type="submit" class="form-control btn btn-primary rounded submit px-3">Sign In</button>
+		            </div>
+		          </form>
+				</div>
+                        
+		          <p class="text-center">Masz już konto <a  asp-controller="Login" asp-action="Login">Zaloguj się</a></p>
+		        </div>
+				<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+		      </div>
+				</div>
+			</div>
+		</div>
+	</section>

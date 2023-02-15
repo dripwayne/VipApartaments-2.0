@@ -1,0 +1,4 @@
+﻿[*.cs]
+
+# CA1707: Identyfikatory nie powinny zawierać znaków podkreślenia
+dotnet_diagnostic.CA1707.severity = none
