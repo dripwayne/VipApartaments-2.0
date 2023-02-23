@@ -1,5 +1,15 @@
 ﻿@model List<VipApartaments.Controllers.Panel.detailsModel>
+ @{
+	 Layout = "~/Views/Shared/_LayoutU.cshtml";}
 <style>
+      p {
+    font-size: 18px;
+    font-weight: bold;
+    color: #333;
+    text-align: center;
+    margin-top: 20px;
+    margin-bottom: 20px;
+  }
         table {
   border-collapse: collapse;
   width: 100%;
@@ -26,15 +36,16 @@ tbody tr:hover {
   background-color: #ddd;
 }
     </style>
+    <p>Oto Twoje rezerwacje, jeżeli pole jest puste dokonaj nowej rezerwacji  </p>
 <table class="table table-bordered">
     <thead>
         <tr>
             <th>Id</th>
-            <th>RoomType</th>
-            <th>DateFrom</th>
-            <th>DateTo</th>
-            <th>ToPay</th>
-            <th>Pay</th>
+            <th>Pokój</th>
+            <th>Przyjazd</th>
+            <th>Odjezd</th>
+            <th>Do zapłaty</th>
+            <th>Zapłacone</th>
             
         </tr>
     </thead> 
@@ -43,7 +54,7 @@ tbody tr:hover {
         {
         <tr>
             <td>@x.Id</td>
-            <td>@x.RoomType</td>
+            <td>@x.RoomType </td>
             <td>@x.DateFrom.ToString("dd/MM/yyyy")</td>
             <td>@x.DateFrom.ToString("dd/MM/yyyy")</td>
             <td>@x.ToPay</td>

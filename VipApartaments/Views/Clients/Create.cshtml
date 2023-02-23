@@ -1,5 +1,8 @@
 ﻿@model VipApartaments.Models.Clients
-
+ @{
+	 Layout = "~/Views/Shared/_Layout2.cshtml";
+    ViewData["Title"] = "Index";
+}
 
 
 @section Scripts {
@@ -10,7 +13,7 @@
 			
 			<div class="row justify-content-center">
 				<div class="col-md-6 text-center mb-5">
-					<h2 class="heading-section">Login #05</h2>
+					<h2 class="heading-section">Witaj w VipApartaments!</h2>
 				</div>
 			</div>
 			<div class="row justify-content-center">
@@ -23,34 +26,34 @@
 			      			<h3 class="mb-4">Zareistruj się</h3>
 			      		<form asp-action="Create">
 						 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-			      		<div class="form-group mt-3">
+			      		<div class="form-group mt-3" >
 							<label asp-for="FirstName" class="form-control-placeholder">Imię</label>
-							<input asp-for="FirstName" class="form-control" />
+							<input asp-for="FirstName" class="form-control" required />
 							<span asp-validation-for="FirstName" class="text-danger"></span>
 			      			
 			      		</div>
 						  <div class="form-group mt-3">
 							<label asp-for="LastName" class="form-control-placeholder">Nazwisko</label>
-							<input asp-for="LastName" class="form-control" />
+							<input asp-for="LastName" class="form-control" required/>
 							<span asp-validation-for="LastName" class="text-danger"></span>
 			      			
 			      		</div>
 						  <div class="form-group mt-3">
 							 <label asp-for="Phone" class="form-control-placeholder">Telefon</label>
-							<input asp-for="Phone" class="form-control" />
+							<input asp-for="Phone" class="form-control" required type="number"/>
 							<span asp-validation-for="Phone" class="text-danger"></span>
 			      			
 			      			
 			      		</div>
 						  <div class="form-group mt-3">
 							  <label asp-for="Email" class="form-control-placeholder">Email</label>
-							 <input asp-for="Email" class="form-control" />
+							 <input asp-for="Email" class="form-control"required type="email" />
 							<span asp-validation-for="Email" class="text-danger"></span>
 			      			
 			      		</div>
 		            <div class="form-group">
 						<label asp-for="password" class="form-control-placeholderl">Hasło</label>
-						<input asp-for="password" class="form-control" />
+						<input asp-for="password"  class="form-control" required/>
 						<span asp-validation-for="password" class="text-danger"></span>
 		             
 		            </div>
@@ -58,12 +61,13 @@
 		            	<button type="submit" class="form-control btn btn-primary rounded submit px-3">Sign In</button>
 		            </div>
 		          </form>
+				  <p class="text-center">Masz już konto <a  asp-controller="Clients" asp-action="Login">Zaloguj się</a></p>
 				</div>
                         
-		          <p class="text-center">Masz już konto <a  asp-controller="Login" asp-action="Login">Zaloguj się</a></p>
+		          
 		        </div>
 				<div>
-    <a asp-action="Index">Back to List</a>
+ 
 </div>
 		      </div>
 				</div>

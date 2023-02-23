@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -26,16 +27,38 @@ namespace VipApartaments.Controllers
         {
             return View(await db.Clients.ToListAsync());
         }
-        public IActionResult Admin()
+        public IActionResult Admin(string Message)
         {
+            ViewData["Message"] = Message;
             return View();
         }
-        public IActionResult Login()
+        public IActionResult Login(string Message)
         {
-
+            ViewData["Message"] = Message;
             return View();
         }
+        public bool IsValidPhoneNumber(string phonenumberString)
+        {
+            int number;
+            bool isInteger = int.TryParse(phonenumberString, out number);
 
+            bool has9Digits = phonenumberString.Length == 9;
+
+            return isInteger && has9Digits;
+        }
+
+        public bool IsValidEmail(string email)
+        {
+            if (string.IsNullOrWhiteSpace(email))
+            {
+                return false;
+            }
+
+            string pattern = @"^([\w\.\-]+)@([\w\-]+)((\.(\w){2,3})+)$";
+            bool isMatch = Regex.IsMatch(email, pattern);
+
+            return isMatch;
+        }
 
         // GET: Clients/Create
 
@@ -51,7 +74,7 @@ namespace VipApartaments.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,FirstName,LastName,Phone,Email,password")] Clients clients)
-        {
+        {  
             if (ModelState.IsValid)
             {
                 db.Add(clients);
@@ -66,7 +89,7 @@ namespace VipApartaments.Controllers
 
        [HttpPost]
        public IActionResult Login(string email, string password)
-        {
+        { 
           using (var contex = db.Database.BeginTransaction())
             {
                 var any = db.Clients.Where(c => c.Email == email && c.password == password).FirstOrDefault() ;
@@ -94,7 +117,7 @@ namespace VipApartaments.Controllers
         {
             using (var contex = db.Database.BeginTransaction())
             {
-                var x= db.Users.Where(c=>c.UserName==UserName&& c.Pass == Pass).FirstOrDefault();
+                var x = db.Users.Where(c => c.UserName == UserName && c.Pass == Pass).FirstOrDefault();
                 if (x == null)
                 {
                     ViewData["Message"] = "Nieprawidłowy login lub hasło";
@@ -103,15 +126,17 @@ namespace VipApartaments.Controllers
                 var id_finder = from c in db.Users where c.UserName == UserName select c;
                 var id_checker = id_finder.FirstOrDefault<User>();
                 HttpContext.Session.SetString("adminUser", id_checker.UserName);
-                return RedirectToAction("Details", "Booking");
+                return RedirectToAction("Apanel", "Panel");
 
             }
-
         }
+        public IActionResult LogOut()
+        { 
+                HttpContext.Session.Clear();
+            
+            return RedirectToAction("Login", "Clients", new { Message = "Wylogowano" });
         
-
-
-        
-        
+            
+        }
     }
 }

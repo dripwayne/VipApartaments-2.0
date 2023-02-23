@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using VipApartaments.Data;
 using Microsoft.AspNetCore.Http;
 using VipApartaments.Models;
+using System.Text.RegularExpressions;
 
 namespace VipApartaments.Controllers
 {
@@ -32,12 +33,13 @@ namespace VipApartaments.Controllers
 
             return View(room);
         }
+     
         [HttpPost]
         public IActionResult Book(DateTime DateFrom, DateTime DateTo, string select_type)
         {
             if (DateFrom == DateTime.MinValue || DateTo == DateTime.MinValue || DateFrom > DateTo || DateFrom < DateTime.Today)
             {
-                return RedirectToAction("Book", "Bookinyg", new { Message  = "Wybierz poprawny zakres dat" });
+                return RedirectToAction("Book", "Booking", new { Message  = "Wybierz poprawny zakres dat" });
             }
             else if ( select_type != null)
             {
@@ -75,12 +77,12 @@ namespace VipApartaments.Controllers
 
         // GET: Booking
         
-        public async Task<IActionResult> Index()
-        {
-            return View();
-            var appDbContext = _context.Booking.Include(b => b.IdClientNavigation).Include(b => b.IdMethodOfPaymentNavigation).Include(b => b.IdRoomNavigation).Include(b=>b.Details);
-            return View(await appDbContext.ToListAsync());
-        }
+        //public async Task<IActionResult> Index()
+        //{
+        //    return View();
+        //   //var appDbContext = _context.Booking.Include(b => b.IdClientNavigation).Include(b => b.IdMethodOfPaymentNavigation).Include(b => b.IdRoomNavigation).Include(b=>b.Details);
+        //    return View(await appDbContext.ToListAsync());
+        //}
 
         // GET: Booking/Details/5
         public async Task<IActionResult> Details(int? id)

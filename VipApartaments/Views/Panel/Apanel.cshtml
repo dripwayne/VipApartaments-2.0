@@ -1,5 +1,84 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@{
+﻿@{
+    Layout = "~/Views/Shared/_LayoutA.cshtml";
 }
+@using Microsoft.AspNetCore.Http
+@model List<VipApartaments.Controllers.Panel.alldetailsModel>
+
+<style>
+        table {
+  border-collapse: collapse;
+  width: 100%;
+  margin-bottom: 1rem;
+  background-color: white;
+  color: #333;
+}
+
+th, td {
+  text-align: left;
+  padding: 0.5rem;
+  border: 1px solid #ccc;
+}
+
+th {
+  font-weight: bold;
+}
+
+tbody tr:nth-child(even) {
+  background-color: #f2f2f2;
+}
+
+tbody tr:hover {
+  background-color: #ddd;
+}
+    </style>
+  
+
+    @if (ViewData["Message"] != null)
+							 {
+							<div class="alert alert-primary">
+							 @ViewData["Message"]
+							 </div>
+							 }
+<form method="post">
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Email klienta</th>
+                <th>Pokój</th>
+                <th>Przyjazd</th>
+                <th>Odjeazd</th>
+                <th>Do zapłaty</th>
+                <th>Zapłacone?</th>
+                    
+               
+                
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var x in Model)
+            {
+                <tr>
+                    <td><input type="text" name="Id" id="Id" value="@x.Id" readonly /></td>
+                      <td id="Email" name="Email">@x.Email</td>
+                    <td><select name="RoomType" id="RoomType" >
+                   @foreach (var room in Model)
+					{
+					<option value="@room.Id">@room.RoomType</option>
+					}
+                    </select> </td>
+                    
+                    
+                    <td><input type="date" name="DateFrom" id="DateFrom" value="@x.DateFrom.ToString("yyyy-MM-dd")" /></td>
+                    <td><input type="date" name="DateTo" id="DateTo" value="@x.DateTo.ToString("yyyy-MM-dd")" /></td>
+                    <td><input type="text" name="ToPay" id="ToPay" value="@x.ToPay" required /></td>
+                    <td><input type="checkbox" name="Pay" id="Pay" value="@x.Pay" /></td>
+                    
+                    
+                    <td><button type="submit" asp-action="Apanel" value="Save">Edytuj </button></td> 
+                </tr>
+            }
+      
+        </tbody>
+    </table
+</form>

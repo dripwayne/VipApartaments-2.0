@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
@@ -17,8 +18,15 @@ namespace VipApartaments.Controllers
         {
             _context = context;
         }
-        public IActionResult Index()
+        public IActionResult Index(string Message)
         {
+            ViewData["Message"] = Message;
+
+            //var current_user = HttpContext.Session.GetInt32("SessionID");
+            //if(current_user == null)
+            //{
+            //    return RedirectToAction("Index", "Home", new { Message = "Najpierw się zaloguj" });
+            //}
             //var instructors = _context.Users.ToList();
             //return View(instructors);
             return View();

@@ -8,6 +8,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using VipApartaments.Data;
@@ -35,7 +36,8 @@ namespace VipApartaments
                 options.IdleTimeout = TimeSpan.FromMinutes(30);
                 
             });
-            services.AddDbContext<AppDbContext>(options => options.UseSqlServer(@"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\Users\tomas\Desktop\save\save 2\VipApartaments\VipApartaments\VipApartamentsDB_1.mdf;Integrated Security=True;
+            string path = Directory.GetCurrentDirectory();
+            services.AddDbContext<AppDbContext>(options => options.UseSqlServer($@"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename={path}\VipApartamentsDB_1.mdf;Integrated Security=True;
 "));
         }
 
@@ -55,6 +57,7 @@ namespace VipApartaments
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseSession();
+          
             app.UseRouting();
 
             app.UseAuthorization();

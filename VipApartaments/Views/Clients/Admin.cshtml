@@ -1,4 +1,7 @@
-﻿<link href="https://fonts.googleapis.com/css?family=Lato:300,400,700&display=swap" rel="stylesheet">
+﻿@{
+    Layout = "~/Views/Shared/_Layout2.cshtml";
+}
+<link href="https://fonts.googleapis.com/css?family=Lato:300,400,700&display=swap" rel="stylesheet">
 
 	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
 <section class="ftco-section">
@@ -17,7 +20,7 @@
 			      		<div class="w-100">
 			      			<h3 class="mb-4">Zaloguj się na konto służbowe</h3>
 			      		
-							<form asp-action="Login" method="POST">
+							<form asp-action="Admin" method="POST">
 			      		<div class="form-group mt-3">
 			      			<input type="text" class="form-control" name="UserName" id="UserNAme"  required>
 			      			<label class="form-control-placeholder" name="UserName" id="UserName"  for="Email">Login</label>
@@ -39,7 +42,7 @@
                                 @ViewData["Message"]
                             </div>
                         }
-		          <p class="text-center">Jesteś klientem? <a asp-controller="Clients" asp-action="Login">Zaloguj się  </a></p>
+		          <p class="text-center">Jesteś klientem? <a asp-controller="Clients" asp-action="Admin">Zaloguj się  </a></p>
 		        </div>
 		      </div>
 				</div>

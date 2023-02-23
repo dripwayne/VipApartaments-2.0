@@ -1,15 +1,90 @@
 ﻿@model IEnumerable<VipApartaments.Models.User>
+@{
+    Layout = "~/Views/Shared/_Layout1.cshtml";
+}
+<style>
+    /* Resetowanie stylów */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
 
-    <div class="table-responsive">
-        <table class="table table-striped table-bordered">
-            <thead>
-                <tr>
-                    <th>First Name</th>
-                    <th>Last Name</th>
-                </tr>
-            </thead>
-            <tbody>
-             
-            </tbody>
-        </table>x
-    </div>
+/* Stylowanie tła i czcionki */
+body {
+  font-family: Arial, sans-serif;
+  background-color: #f2f2f2;
+}
+
+/* Stylowanie nagłówków */
+h1, h2 {
+  text-align: center;
+  margin: 20px 0;
+}
+
+/* Stylowanie tekstu */
+p, l {
+  font-size: 18px;
+  line-height: 1.5;
+  margin-bottom: 10px;
+}
+
+/* Stylowanie listy */
+ul {
+  list-style: none;
+  margin-bottom: 20px;
+}
+
+
+
+
+/* Stylowanie linków */
+a {
+  color: #009688;
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+/* Stylowanie przycisku */
+.btn {
+  display: inline-block;
+  background-color: #009688;
+  color: #fff;
+  font-size: 18px;
+  padding: 10px 20px;
+  border-radius: 5px;
+  text-align: center;
+  margin: 20px auto;
+  text-decoration: none;
+}
+
+.btn:hover {
+  background-color: #00796b;
+}
+</style>
+    <body>
+    <h1>Witaj w Vip Apartments!</h1>
+    <p>Oferujemy szeroką gamę luksusowych apartamentów w doskonałej lokalizacji, aby zapewnić Ci niezapomniane doświadczenie w podróży.</p>
+    <h2>Rodzaje pokojów</h2>
+    <p>Nasz oferujemy trzy rodzaje pokojów:</p>
+    <ul>
+      <li>Standardowy - cena za noc: 300 zł</li>
+      <li>Superior - cena za noc: 500 zł</li>
+      <li>Deluxe - cena za noc: 700 zł</li>
+    </ul>
+    <p>Zarezerwuj swój pokój już dziś i ciesz się wspaniałym pobytem w Vip Apartments. Nasz personel jest gotowy, aby zapewnić Ci niezapomniane doświadczenie w każdym calu.</p>
+    
+        @if (ViewData["Message"] != null)
+							 {
+							<div class="alert alert-primary">
+							 @ViewData["Message"]
+							 </div>
+							 }
+  </body>
+    
+  <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
