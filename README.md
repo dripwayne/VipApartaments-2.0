@@ -17,7 +17,7 @@ Administrator: The administrator has access to all features and functionalities 
 ## Getting Started
 
 1.  Install the required software (operating system, development environment).
-2.  Download the CarWise ASP.NET application from this github repository
+2.  Download the VipApartaments ASP.NET application from this github repository
 3.  Open the solution in Microsoft Visual Studio and build the solution.
 4.  Deploy the application to the web server.
 5.  Log in to the application using the administrator account.
