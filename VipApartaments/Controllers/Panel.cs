@@ -8,6 +8,12 @@ using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
 using Microsoft.EntityFrameworkCore;
+using System.Net;
+using Newtonsoft.Json;
+using System.Threading.Tasks;
+using System.Net.Http;
+using System.Xml.Linq;
+using System.Globalization;
 
 namespace VipApartaments.Controllers
 {
@@ -25,18 +31,19 @@ namespace VipApartaments.Controllers
 
 
             public int Id { get; set; }
-            
+
             public string RoomType { get; set; }
             public DateTime DateFrom { get; set; }
             public DateTime DateTo { get; set; }
             public int ToPay { get; set; }
+            public int ToPayEUR { get; set; }
             public bool Pay { get; set; }
 
 
         }
-        
 
-         
+
+
         public class alldetailsModel
         {
 
@@ -70,7 +77,7 @@ namespace VipApartaments.Controllers
                                    join Users in db.Clients on Booking.IdClient equals Users.Id
 
                                    select new
-                                   {   
+                                   {
                                        Users.Email,
                                        Booking.Id,
                                        Rooms.RoomType,
@@ -86,9 +93,10 @@ namespace VipApartaments.Controllers
                 List<alldetailsModel> detailsList = new List<alldetailsModel>();
                 foreach (var x in bookDetails)
                 {
-                    detailsList.Add(new alldetailsModel {  Email = x.Email, Id = x.Id, RoomType = x.RoomType, DateFrom = x.DateFrom, DateTo = x.DateTo, ToPay = x.ToPay, Pay = x.Pay });
+                    detailsList.Add(new alldetailsModel { Email = x.Email, Id = x.Id, RoomType = x.RoomType, DateFrom = x.DateFrom, DateTo = x.DateTo, ToPay = x.ToPay, Pay = x.Pay });
                 }
                 return View(detailsList);
+              
             }
         }
         [HttpPost]
@@ -118,13 +126,29 @@ namespace VipApartaments.Controllers
             }
         }
 
-
-        public IActionResult Upanel()
-            
+        public async Task<decimal> GetEuroExchangeRate()
         {
-            int current_user = (int)HttpContext.Session.GetInt32("SessionID");
-            using (var cotex = db.Database.BeginTransaction())
+            using (var client = new HttpClient())
             {
+                string url = "http://www.nbp.pl/kursy/xml/lasta.xml"; // adres do pliku XML z kursami walut
+                var response = await client.GetAsync(url);
+                var xmlString = await response.Content.ReadAsStringAsync();
+                var xml = XDocument.Parse(xmlString);
+                var euroRate = (from rate in xml.Descendants("pozycja")
+                                where (string)rate.Element("kod_waluty") == "EUR"
+                                select rate.Element("kurs_sredni").Value).FirstOrDefault();
+                return decimal.Parse(euroRate.Replace(',', '.'), CultureInfo.InvariantCulture);
+            }
+        }
+        public async Task<IActionResult> UpanelAsync()
+
+        {
+
+            //List<detailsModel> detailsList = GetBookingDetailsList();
+            //return View(detailsList);
+            int current_user = (int)HttpContext.Session.GetInt32("SessionID");
+            //using (var cotex = db.Database.BeginTransaction())
+            //{
                 var bookDetails = (from Booking in db.Booking
                                    join Details in db.Details
                                    on Booking.Id equals Details.Id
@@ -143,18 +167,22 @@ namespace VipApartaments.Controllers
 
 
                                    }).ToList();
-
+            
                 List<detailsModel> detailsList = new List<detailsModel>();
-                foreach (var x in bookDetails)
-                {
-                    detailsList.Add(new detailsModel { Id = x.Id, RoomType = x.RoomType, DateFrom = x.DateFrom, DateTo = x.DateTo, ToPay = x.ToPay, Pay = x.Pay });
-                }
-                return View(detailsList);
+            decimal euroExchangeRate = await GetEuroExchangeRate();
+            foreach (var x in bookDetails)
+            {
+                int toPayEUR = (int)(x.ToPay / euroExchangeRate);
+                detailsList.Add(new detailsModel { Id = x.Id, RoomType = x.RoomType, DateFrom = x.DateFrom, DateTo = x.DateTo, ToPay = x.ToPay,  ToPayEUR = toPayEUR, Pay = x.Pay });
             }
+            return View(detailsList);
 
+            
 
         }
-        
-       
+
+
+
+
     }
 }

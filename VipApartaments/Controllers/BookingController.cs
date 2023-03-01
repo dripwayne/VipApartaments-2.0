@@ -33,9 +33,11 @@ namespace VipApartaments.Controllers
 
             return View(room);
         }
-     
-        [HttpPost]
-        public IActionResult Book(DateTime DateFrom, DateTime DateTo, string select_type)
+        
+       
+        
+            [HttpPost]
+            public IActionResult Book(DateTime DateFrom, DateTime DateTo, string select_type)
         {
             if (DateFrom == DateTime.MinValue || DateTo == DateTime.MinValue || DateFrom > DateTo || DateFrom < DateTime.Today)
             {
@@ -56,16 +58,20 @@ namespace VipApartaments.Controllers
                     var insertBook = (new Booking { IdClient = current_user, IdRoom = select_t, IdMethodOfPayment = 2, ToPay = totalPrice, Pay = false, });
                     _context.Booking.Add(insertBook);
                     _context.SaveChanges();
+                   
+                    var insertedBooking = _context.Booking.First(b => b.Id == insertBook.Id);
 
-                    var insertDetails = (new Details { IdBook = insertBook.Id, DateFrom = DateFrom, DateTo = DateTo });
+                    var insertDetails = new Details { IdBook = insertedBooking.Id, DateFrom = DateFrom, DateTo = DateTo };
                     _context.Details.Add(insertDetails);
                     _context.SaveChanges();
+
                     contex.Commit();
                     
-                    return RedirectToAction("Upanel", "Panel", new { Message = "Dane dodane" });
-                
-                    
-                   
+                    return RedirectToAction("Upanel", "Panel");
+                    //return RedirectToAction("Upanel", "Panel"/*, new { Message = "Dane dodane" }*/);
+
+
+
                 }
                 
             }
@@ -74,9 +80,10 @@ namespace VipApartaments.Controllers
             return View();
         }
 
+       
 
         // GET: Booking
-        
+
         //public async Task<IActionResult> Index()
         //{
         //    return View();

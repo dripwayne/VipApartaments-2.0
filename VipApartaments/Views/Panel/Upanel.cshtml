@@ -44,7 +44,8 @@ tbody tr:hover {
             <th>Pokój</th>
             <th>Przyjazd</th>
             <th>Odjezd</th>
-            <th>Do zapłaty</th>
+            <th>Do zapłaty PLN</th>
+             <th>Do zapłaty EUR</th>
             <th>Zapłacone</th>
             
         </tr>
@@ -58,9 +59,14 @@ tbody tr:hover {
             <td>@x.DateFrom.ToString("dd/MM/yyyy")</td>
             <td>@x.DateFrom.ToString("dd/MM/yyyy")</td>
             <td>@x.ToPay</td>
+            <td> @x.ToPayEUR</td>
             <td>@x.Pay</td>
            
         </tr>
         }
+        <pre>
+    @Html.Raw(Json.Serialize(Model))
+</pre>
         </tbody>
 </table>
+<button type="submit" asp-action="Upanel" >Edytuj </button>

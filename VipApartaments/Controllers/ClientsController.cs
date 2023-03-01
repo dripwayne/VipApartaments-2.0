@@ -74,17 +74,21 @@ namespace VipApartaments.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,FirstName,LastName,Phone,Email,password")] Clients clients)
-        {  
-            if (ModelState.IsValid)
+        {
+            using (var contex = db.Database.BeginTransaction())
             {
-                db.Add(clients);
-                await db.SaveChangesAsync();
+                if (ModelState.IsValid)
+                {
+                    db.Add(clients);
+                    await db.SaveChangesAsync();
 
 
 
-                return RedirectToAction("Login", "Clients");
+                    return RedirectToAction("Login", "Clients");
+                }
+                contex.Commit();
+                return View();
             }
-            return View();
         }
 
        [HttpPost]
