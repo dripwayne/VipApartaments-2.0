@@ -2,7 +2,7 @@
 ## System Requirements
 
 -   Operating System: Windows 10 or higher
--   Development Environment: Microsoft Visual Studio 2019 or higher with .NET 5.0
+-   Development Environment: Microsoft Visual Studio 2019 or higher with .NET 6.0
 
 ## Users
 To user account simple add a new user
