@@ -56,6 +56,7 @@ namespace VipApartaments.Controllers
             public DateTime DateTo { get; set; }
             public int ToPay { get; set; }
             public bool Pay { get; set; }
+           
 
 
         }
@@ -64,11 +65,11 @@ namespace VipApartaments.Controllers
             string current_admin = (string)HttpContext.Session.GetString("adminUser");
             if (string.IsNullOrEmpty(current_admin))
             {
-                return RedirectToAction("Clients", "Admin", new { Message = "Zalogij się jako administrator aby korzystać z panelu " });
+                return RedirectToAction("Login", "Clients", new { Message = "Zalogij się jako administrator aby korzystać z panelu " });
             }
             ViewData["Message"] = Message;
-            using (var cotex = db.Database.BeginTransaction())
-            {
+         
+           
 
                 var bookDetails = (from Booking in db.Booking
                                    join Details in db.Details
@@ -78,8 +79,9 @@ namespace VipApartaments.Controllers
 
                                    select new
                                    {
-                                       Users.Email,
                                        Booking.Id,
+                                       Users.Email,
+                                       
                                        Rooms.RoomType,
                                        Details.DateFrom,
                                        Details.DateTo,
@@ -96,19 +98,74 @@ namespace VipApartaments.Controllers
                     detailsList.Add(new alldetailsModel { Email = x.Email, Id = x.Id, RoomType = x.RoomType, DateFrom = x.DateFrom, DateTo = x.DateTo, ToPay = x.ToPay, Pay = x.Pay });
                 }
                 return View(detailsList);
-              
-            }
+                         
         }
-        [HttpPost]
-        public IActionResult Apanel(int Id, string RoomType, DateTime DateFrom, DateTime DateTo, string ToPay, bool Pay)
+        public IActionResult UpdatePanel(int Id)
         {
+            string current_admin = (string)HttpContext.Session.GetString("adminUser");
+            if (string.IsNullOrEmpty(current_admin))
+            {
+                return RedirectToAction("Login", "Clients", new { Message = "Zalogij się jako administrator aby korzystać z panelu " });
+            }
+            var values = (from Booking in db.Booking
+                                   join Details in db.Details
+                                   on Booking.Id equals Details.Id
+                                   join Rooms in db.Rooms on Booking.IdRoom equals Rooms.Id
+                                   join Users in db.Clients on Booking.IdClient equals Users.Id
+                                   where Booking.Id == Id 
+                                   select new
+                                   {
+                                       Booking.Id,
+                                       Users.Email,
+
+                                       Rooms.RoomType,
+                                       Details.DateFrom,
+                                       Details.DateTo,
+                                       Booking.ToPay,
+                                       Booking.Pay
+
+
+
+                                   }).FirstOrDefault();
+            
+            alldetailsModel alldetails = new alldetailsModel();
+            alldetails.Id = values.Id;
+            alldetails.Email = values.Email;
+            alldetails.RoomType = values.RoomType;
+            alldetails.DateFrom = values.DateFrom;
+            alldetails.DateTo = values.DateTo;
+            alldetails.ToPay = values.ToPay;
+            alldetails.Pay = values.Pay;
+            return View(alldetails);
+           
+
+        }
+
+        [HttpPost]
+        public IActionResult UpdatePanel(int Id, string RoomType, DateTime DateFrom, DateTime DateTo, string ToPay, bool Pay)
+        {
+            string current_admin = (string)HttpContext.Session.GetString("adminUser");
+            if (string.IsNullOrEmpty(current_admin))
+            {
+                return RedirectToAction("Login", "Clients", new { Message = "Zalogij się jako administrator aby korzystać z panelu " });
+            }
             using (var contex = db.Database.BeginTransaction())
             {
+
+
+
+                Console.WriteLine(Id);
+
+                Console.WriteLine(ToPay);
                 var booking = db.Booking.Include(b => b.Details).FirstOrDefault(b => b.Id == Id);
-                var details = db.Details.Where(d => d.IdBook == booking.Id).FirstOrDefault();//*booking.Details.FirstOrDefault(d => d.IdBook==Id)*/
+
+                var details = db.Details.First(b => b.IdBook == booking.Id);
                 int price = int.Parse(ToPay);
-                int r_type = int.Parse(RoomType);
-                booking.IdRoom = r_type;
+                int r_price = db.Rooms.Where(x => x.RoomType == RoomType).Select(x => x.RoomPrice).First();
+                TimeSpan timeSpan = DateTo - DateFrom;
+                int totalDays = timeSpan.Days;
+                int totalPrice = r_price * totalDays;
+                booking.ToPay = totalPrice;
                 details.DateFrom = DateFrom;
                 details.DateTo = DateTo;
                 booking.ToPay = price;
@@ -116,11 +173,10 @@ namespace VipApartaments.Controllers
 
                 db.SaveChanges();
                 contex.Commit();
-
+                
 
 
                 return RedirectToAction("Apanel", "Panel", new { Message = "Dane uaktualnione" });
-
 
 
             }
@@ -130,7 +186,7 @@ namespace VipApartaments.Controllers
         {
             using (var client = new HttpClient())
             {
-                string url = "http://www.nbp.pl/kursy/xml/lasta.xml"; // adres do pliku XML z kursami walut
+                string url = "http://www.nbp.pl/kursy/xml/lasta.xml";
                 var response = await client.GetAsync(url);
                 var xmlString = await response.Content.ReadAsStringAsync();
                 var xml = XDocument.Parse(xmlString);
@@ -149,40 +205,39 @@ namespace VipApartaments.Controllers
             int current_user = (int)HttpContext.Session.GetInt32("SessionID");
             //using (var cotex = db.Database.BeginTransaction())
             //{
-                var bookDetails = (from Booking in db.Booking
-                                   join Details in db.Details
-                                   on Booking.Id equals Details.Id
-                                   join Rooms in db.Rooms on Booking.IdRoom equals Rooms.Id
-                                   join Users in db.Clients on Booking.IdClient equals Users.Id
-                                   where Booking.IdClient == current_user
-                                   select new
-                                   {
-                                       Booking.Id,
-                                       Rooms.RoomType,
-                                       Details.DateFrom,
-                                       Details.DateTo,
-                                       Booking.ToPay,
-                                       Booking.Pay
+            var bookDetails = (from Booking in db.Booking
+                               join Details in db.Details
+                               on Booking.Id equals Details.Id
+                               join Rooms in db.Rooms on Booking.IdRoom equals Rooms.Id
+                               join Users in db.Clients on Booking.IdClient equals Users.Id
+                               where Booking.IdClient == current_user
+                               select new
+                               {
+                                   Booking.Id,
+                                 
+                                   Rooms.RoomType,
+                                   Details.DateFrom,
+                                   Details.DateTo,
+                                   Booking.ToPay,
+                                   Booking.Pay
 
 
 
-                                   }).ToList();
-            
-                List<detailsModel> detailsList = new List<detailsModel>();
+                               }).ToList();
+
+            List<detailsModel> detailsList = new List<detailsModel>();
             decimal euroExchangeRate = await GetEuroExchangeRate();
             foreach (var x in bookDetails)
             {
                 int toPayEUR = (int)(x.ToPay / euroExchangeRate);
-                detailsList.Add(new detailsModel { Id = x.Id, RoomType = x.RoomType, DateFrom = x.DateFrom, DateTo = x.DateTo, ToPay = x.ToPay,  ToPayEUR = toPayEUR, Pay = x.Pay });
+                detailsList.Add(new detailsModel { Id = x.Id, RoomType = x.RoomType, DateFrom = x.DateFrom, DateTo = x.DateTo, ToPay = x.ToPay, ToPayEUR = toPayEUR, Pay = x.Pay });
             }
             return View(detailsList);
 
-            
+
 
         }
 
-
-
-
+    
     }
 }

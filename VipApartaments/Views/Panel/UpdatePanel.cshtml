@@ -1,0 +1,153 @@
+﻿@model VipApartaments.Controllers.Panel.alldetailsModel
+@{
+    Layout = "~/Views/Shared/_LayoutA.cshtml";
+}
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
+<style>
+	.ftco-section {
+background-color: #f8f9fa;
+padding: 80px 0;
+}
+
+/* style dla formularza logowania */
+.login-wrap {
+background-color: #fff;
+border-radius: 10px;
+box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+margin-bottom: 30px;
+padding: 30px;
+text-align: left;
+}
+
+.login-wrap label {
+font-weight: 600;
+margin-bottom: 10px;
+}
+
+.login-wrap input {
+border: none;
+border-bottom: 1px solid #dee2e6;
+padding: 0 10px;
+margin-bottom: 30px;
+}
+
+.login-wrap input:focus {
+outline: none;
+border-color: #007bff;
+}
+
+.login-wrap .btn-primary {
+background-color: #007bff;
+border: none;
+}
+
+.login-wrap .btn-primary:hover {
+background-color: #0069d9;
+}
+
+.login-wrap a {
+color: #007bff;
+}
+
+.login-wrap a:hover {
+text-decoration: none;
+}
+
+
+
+/* style dla sekcji o wartościach do zapłaty */
+.control-label {
+font-weight: 600;
+margin-bottom: 10px;
+}
+
+.form-control {
+width: 100%;
+border: none;
+border-bottom: 1px solid #dee2e6;
+padding: 0 10px;
+margin-bottom: 30px;
+}
+
+.form-control:focus {
+outline: none;
+border-color: #007bff;
+}
+
+.text-danger {
+color: #dc3545;
+}
+</style>
+<section class="ftco-section">
+		<div class="container">
+			
+			<div class="row justify-content-center">
+				<div class="col-md-6 text-center mb-5">
+					
+				</div>
+			</div>
+			<div class="row justify-content-center">
+				<div class="col-md-7 col-lg-5">
+					<div class="wrap">
+						
+						<div class="login-wrap p-4 p-md-5">
+			      	<div class="d-flex">
+			      		<div class="w-100">
+			      			
+			      		<form asp-action="UpdatePanel">
+						 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+			      		<div class="form-group mt-3" >
+							<label asp-for="Email" class="form-control-placeholder">Imię</label>
+							<input asp-for="Email" class="form-control" readonly />
+							<span asp-validation-for="Email" class="text-danger"></span>
+			      			
+			      		</div>
+						  <div class="form-group mt-3">
+							<label asp-for="RoomType" class="form-control-placeholder">Nazwisko</label>
+							<input asp-for="RoomType" class="form-control" readonly/>
+							<span asp-validation-for="RoomType" class="text-danger"></span>
+			      			
+			      		</div>
+						  <div class="form-group mt-3">
+							 <label asp-for="DateFrom" class="form-control-placeholder">Telefon</label>
+							<input type="date" asp-for="DateFrom" class="form-control" required />
+							<span asp-validation-for="DateFrom" class="text-danger"></span>
+			      			
+			      				
+			      		</div>
+						  
+		            <div class="form-group">
+						<label asp-for="DateTo" class="form-control-placeholderl">Hasło</label>
+						<input type="date" asp-for="DateTo"  class="form-control" required/>
+						<span asp-validation-for="DateTo" class="text-danger"></span>
+		             
+		            <div class="form-group">
+                <label asp-for="ToPay" class="control-label"></label>
+                <input  asp-for="ToPay" class="form-control" />
+                <span asp-validation-for="ToPay" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Pay" class="control-label"></label>
+                <input asp-for="Pay" class="form-control" />
+                <span asp-validation-for="Pay" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" /> |
+                <a asp-action="Apanel">Back to List</a>
+            </div>
+		   </form>
+			
+				</div>
+                        
+		          
+		        </div>
+				<div>
+ 
+</div>
+		      </div>
+				</div>
+			</div>
+		</div>
+	</section>

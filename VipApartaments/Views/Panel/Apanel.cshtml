@@ -2,7 +2,9 @@
 @{
     Layout = "~/Views/Shared/_LayoutA.cshtml";
 }
-
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
 @model List<VipApartaments.Controllers.Panel.alldetailsModel>
 
 <style>
@@ -32,7 +34,7 @@ tbody tr:hover {
   background-color: #ddd;
 }
     </style>
-  
+
 
     @if (ViewData["Message"] != null)
 							 {
@@ -40,46 +42,41 @@ tbody tr:hover {
 							 @ViewData["Message"]
 							 </div>
 							 }
-<form method="post">
-    <table class="table table-bordered">
-        <thead>
-            <tr>
-                <th>Id</th>
-                <th>Email klienta</th>
-                <th>Pokój</th>
-                <th>Przyjazd</th>
-                <th>Odjeazd</th>
-                <th>Do zapłaty</th>
-                <th>Zapłacone?</th>
+ 
+    <form method="post">
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>iD</th>
+                    <th>Email klienta</th>
+                    <th>Pokój</th>
+                    <th>Przyjazd</th>
+                    <th>Odjeazd</th>
+                    <th>Do zapłaty</th>
+                    <th>Zapłacone?</th>
                     
                
                 
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var x in Model)
-            {
-                <tr>
-                    <td><input type="text" name="Id" id="Id" value="@x.Id" readonly /></td>
-                      <td id="Email" name="Email">@x.Email</td>
-                    <td><select name="RoomType" id="RoomType" >
-                   @foreach (var room in Model)
-					{
-					<option value="@room.Id">@room.RoomType</option>
-					}
-                    </select> </td>
-                    
-                    
-                    <td><input type="date" name="DateFrom" id="DateFrom" value="@x.DateFrom.ToString("yyyy-MM-dd")" /></td>
-                    <td><input type="date" name="DateTo" id="DateTo" value="@x.DateTo.ToString("yyyy-MM-dd")" /></td>
-                    <td><input type="text" name="ToPay" id="ToPay" value="@x.ToPay" required /></td>
-                    <td><input type="checkbox" name="Pay" id="Pay" value="@x.Pay" /></td>
-                    
-                    
-                    <td><button type="submit" asp-action="Apanel" value="Save">Edytuj </button></td> 
                 </tr>
-            }
+            </thead>
+            <tbody>
+                @foreach (var x in Model)
+                {
+                    <tr>
+                      
+                       <td>@x.Id</td>
+                         <td id="Email" name="Email">@x.Email</td>
+                         <td><input name="RoomType" id="RoomType" value="@x.RoomType" readonly>
+                        <td><input type="text" name="DateFrom" id="DateFrom"  value="@x.DateFrom.ToString("yyyy-MM-dd")" readonly /></td>
+                        <td><input type="text" name="DateTo" id="DateTo" value="@x.DateTo.ToString("yyyy-MM-dd")" readonly /></td>
+                      <td>  <input type="text" name="ToPayInput" id="ToPayInput" value="@x.ToPay" readonly />
+                        </td>
+                        <td><input type="checkbox" name="Pay" id="Pay" value="@x.Pay"  readonly/></td>
+                   
+                        <td><a asp-controller="Panel" asp-action="UpdatePanel"asp-route-id="@x.Id" >Edytuj </a></td> 
+                    </tr>
+                }
       
-        </tbody>
-    </table>
+            </tbody>
+        </table>
 </form>

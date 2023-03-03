@@ -3,7 +3,9 @@
 @{
     ViewData["Title"] = "Create";
 }
-
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
 <h1>Create</h1>
 
 <h4>Booking</h4>

@@ -36,12 +36,12 @@
 		          
 		          
 		          </form>
-				   @if (ViewData["Message"] != null)
-                        {
-                            <div class="alert alert-danger">
-                                @ViewData["Message"]
-                            </div>
-                        }
+				  @if (ViewData["Message"] != null)
+							 {
+							<div class="alert alert-primary">
+							 @ViewData["Message"]
+							 </div>
+							 }
 		          <p class="text-center">Jesteś klientem? <a asp-controller="Clients" asp-action="Admin">Zaloguj się  </a></p>
 		        </div>
 		      </div>

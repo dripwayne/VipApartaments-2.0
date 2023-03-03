@@ -36,6 +36,7 @@ tbody tr:hover {
   background-color: #ddd;
 }
     </style>
+   
     <p>Oto Twoje rezerwacje, jeżeli pole jest puste dokonaj nowej rezerwacji  </p>
 <table class="table table-bordered">
     <thead>
@@ -64,9 +65,7 @@ tbody tr:hover {
            
         </tr>
         }
-        <pre>
-    @Html.Raw(Json.Serialize(Model))
-</pre>
+       
         </tbody>
 </table>
 <button type="submit" asp-action="Upanel" >Edytuj </button>

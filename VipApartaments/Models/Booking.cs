@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 // Code scaffolded by EF Core assumes nullable reference types (NRTs) are not used or disabled.
 // If you have enabled NRTs for your project, then un-comment the following line:
@@ -18,6 +19,7 @@ namespace VipApartaments.Models
         public int IdClient { get; set; }
         public int IdRoom { get; set; }
         public int IdMethodOfPayment { get; set; }
+      
         public int ToPay { get; set; }
         public bool Pay { get; set; }
 
